@@ -1,0 +1,22 @@
+import numpy as np 
+import pandas as pd 
+import re  
+import nltk 
+nltk.download('stopwords')  
+from nltk.corpus import stopwords 
+
+twetext = pd.read_csv('/Users/admin/Downloads/elonmusk_tweets.csv')
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+# list of text documents
+text = twetext['text']# reading only text column from the csv file
+print(text)
+# transforminhg into feature matrix
+Vectori = TfidfVectorizer()#(max_features=2000, stop_words=stopwords.words('english'))
+# tokenize and build vocab
+Vectori.fit([text[0]])#fit is a default function in package to calculate the ifd
+print(Vectori.vocabulary_)
+print(Vectori.idf_)
+vector = Vectori.transform(text)
+print(vector.shape)
+print(vector.toarray())
