@@ -1,0 +1,22 @@
+import re
+import pandas as pand 
+import numpy as np 
+import matplotlib.pyplot as plot
+import string as str
+import nltk
+import warnings 
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+testfile  = pand.read_csv('/Users/admin/Downloads/test.csv')
+trainfile  = pand.read_csv('/Users/admin/Downloads/train.csv')
+merge = pand.read_csv('/Users/admin/Downloads/elonmusk_tweets.csv')%Reading files from downloads as CSV
+def data_clean(load_input, design):% Method for cleaning the data desgin can be any pattern that you want to remove like username punctuation, lower case, upper case.
+    z = re.findall(design, load_input)
+    for i in z:
+        load_input = re.sub(i, '', load_input) 
+    return load_input
+    testfile.head(10)
+merge['clean_tweets'] = np.vectorize(data_clean)(merge['text'], "@[\w]*") % remover @ handle name from tweets
+merge['clean_tweets'] = merge['clean_tweets'].str.replace("[^a-zA-Z#]", " ") %if the tweet has anyother thing than numbers and letters it is replaced with space
+merge.head(10)
+merge['tokenized_tweet']= merge['clean_tweets'].apply(lambda x: x.split())
+merge.head(10)
