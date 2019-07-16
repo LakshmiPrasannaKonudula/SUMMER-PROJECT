@@ -17,6 +17,14 @@ def data_clean(load_input, design):% Method for cleaning the data desgin can be 
     testfile.head(10)
 merge['clean_tweets'] = np.vectorize(data_clean)(merge['text'], "@[\w]*") % remover @ handle name from tweets
 merge['clean_tweets'] = merge['clean_tweets'].str.replace("[^a-zA-Z#]", " ") %if the tweet has anyother thing than numbers and letters it is replaced with space
+merge['clean_tweets'] = merge['clean_tweets'].apply(lambda x: ' '.join([w for w in x.split() if len(w)>3]))
+#merge['clean_tweets'] = merge['clean_tweets'].apply(lambda x: [stemmer.stem(i) for i in x]) # stemming
+merge['lower_tweets']=merge['clean_tweets'].str.lower()
 merge.head(10)
 merge['tokenized_tweet']= merge['clean_tweets'].apply(lambda x: x.split())
 merge.head(10)
+
+merge['clean_tweets'] = np.vectorize(data_clean)(merge['text'], "@[\w]*") 
+merge['clean_tweets'] = merge['clean_tweets'].str.replace("[^a-zA-Z#]", " ")
+
+
